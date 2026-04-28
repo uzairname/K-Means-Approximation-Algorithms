@@ -1,0 +1,39 @@
+
+\begin{document}
+
+\maketitle
+
+\section{The Problem}
+
+In the $k$-means clustering problem, we are given a set of observations $(\textbf{x}_1, \textbf{x}_2, \dots, \textbf{x}_n)$, where each observation is a d-dimensional vector in $\mathbb R^d$. The goal is to partition them into $k$ sets $\textbf{S}=\{S_1,S_2,\dots,S_k\}$ to minimize the variance within each cluster, summed across each cluster. Specifically, the objective is to find
+
+\[
+\arg\min_{S} \sum_{i=1}^{k} |S_i| \, \mathrm{Var}(S_i)
+\]
+
+Where $\text{Var}(S_i)$ is the variance with respect to the centroid of cluster $S_i$. k-means clustering is used in cluster analysis, a fundamental technique in machine learning and data mining. It is used to group a set of data points into clusters based on features. This makes finding approximations to k-means clustering a practical area of research.
+
+\section{Approximation Algorithms}
+
+In practice, multiple different approximation algorithms are stacked together to solve the problem. Rather than proving exact bounds, the industry primarily relies on empirical results for evaluating the effectiveness of the approaches. Each of the following algorithms will be implemented and empirically evaluated:
+
+\subsection{$k$-means++ (or Lloyd's Algorithm)}
+
+This is the standard algorithm for approximating k-means. It provides a $O(\log k)$-approximation. The literature uses Lloyd's algorithm to benchmark other approximation algorithms.
+
+\subsection{Coresets}
+
+This class of algorithms, introduced by \cite{harpeled2018coresetskmeanskmedianclustering}, compresses the dataset into a small subset of a fixed number of weighted data points, called a "coreset". The resulting subset can be treated as an instance of the weighted k-means problem. The coreset is constructed such that its optimal centers are guaranteed to be a $(1+O(\epsilon))$-approximation to the original problem instance. Compressing the dataset can run in polynomial time, then solving the smaller weighted k-means problem runs in exponential time, but can be treated as constant time because we choose a fixed number of points. This algorithm is very effective for large datasets.
+
+\subsection{Local Search}
+
+A local search algorithm proposed by \cite{KANUNGO200489} is a $(9+\epsilon)$-approximation. It is a simple and practical algorithm that involves repeatedly swapping centers with a fixed number of nearby candidate centers at each step. When combined with Lloyd's algorithm, it performs well in practice. This was the first proven algorithm to have a constant factor approximation to $k$-means.
+
+\section{Evaluation}
+
+These algorithms will be tested on datasets from the UCI machine learning repository, including datasets with high dimensionality $d$ (such as SIFT1M), and a large number of data points $n$ (such as Covertype). 
+
+\bibliography{bib}  
+\bibliographystyle{apalike}
+
+\end{document}
